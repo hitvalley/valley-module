@@ -1,0 +1,29 @@
+{
+  "name": "valley_module",
+  "version": "1.0.0",
+  "description": "modules management",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel-node": "babel-node *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hitvalley/valley_module.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hitvalley/valley_module/issues"
+  },
+  "homepage": "https://github.com/hitvalley/valley_module#readme",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "rollup": "^0.52.1",
+    "rollup-plugin-babel": "^3.0.2"
+  }
+}
