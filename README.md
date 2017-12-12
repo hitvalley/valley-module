@@ -4,5 +4,5 @@
 
 ```
 npm i
-node demo/demo.js
+npm run demo
 ```
