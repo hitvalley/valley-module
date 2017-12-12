@@ -1,24 +1,44 @@
 import ValleyModule from '../src/valley-module';
 
+class RenderModule extends ValleyModule {
+  constructor(input) {
+    super(input);
+    this.add(async next => {
+      let moduleName = this.getModule(this.context.path);
+      if (moduleName === input.name) {
+        console.log(`render ${input.name}`);
+      }
+      await next();
+    });
+  }
+  getModule(path) {
+    return path.replace(/^\/|\/$/g, '');
+  }
+}
+
 class RouterModule extends ValleyModule {
   constructor(input) {
     super(input);
-    let prepare = async next => {
-      console.log('start prepare', Date.now());
-      let pjob = new Promise(resolve => {
-        setTimeout(() => {
-          resolve('end prepare');
-        }, 1000);
-      });
-      let res = await pjob;
-      console.log(res, Date.now());
-      await next();
-    }
-    let path = input.path || '';
-    let modules = input.modules || {};
     let checkRoute = async next => {
-      return modules[path];
-    }
+      this.context.path = process.argv && process.argv[2] || '/index';
+      await next();
+    };
     this.queue = [checkRoute];
   }
 }
+
+let indexM = new RenderModule({ name: 'index' });
+let listM = new RenderModule({ name: 'list' });
+
+class MainModule extends ValleyModule {
+  constructor(input) {
+    super(input);
+    this.queue = [
+      RouterModule,
+      [indexM, listM],
+    ];
+  }
+}
+
+let mainModule = new MainModule();
+mainModule.init();
