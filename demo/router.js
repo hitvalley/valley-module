@@ -1,15 +1,34 @@
 import ValleyModule from '../src/valley-module';
 // const ValleyModule = require('./vm');
 
+function getTpl(name) {
+  let len = Math.floor(Math.random() * 10) * 100;
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(`tpl: ${name} ${len}`);
+    }, len)
+  });
+}
+function getData(data) {
+  let len = Math.floor(Math.random() * 10) * 100;
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(`data ${data} ${len}`);
+    }, len);
+  });
+}
+
 class RenderModule extends ValleyModule {
   constructor(input) {
     super(input);
     this.add(async next => {
       let moduleName = this.getModule(this.context.path);
       if (moduleName === input.name) {
-        console.log(`render ${input.name}`, Date.now());
+        this.context.tpl = `${input.name}Tpl`;
+        this.context.data = `${input.name}Data`;
+        console.log(`begin render ${input.name}`, Date.now());
+        await next();
       }
-      await next();
     });
   }
   getModule(path) {
@@ -32,6 +51,18 @@ class RouterModule extends ValleyModule {
 let indexM = new RenderModule({ name: 'index' });
 let listM = new RenderModule({ name: 'list' });
 
+class HTMLModule extends ValleyModule {
+  constructor(input) {
+    super(input);
+    this.queue = [
+      async next => {
+        console.log(`render html ${this.context.path}`);
+        await next();
+      }
+    ]
+  }
+}
+
 class MainModule extends ValleyModule {
   constructor(input) {
     super(input);
@@ -39,6 +70,7 @@ class MainModule extends ValleyModule {
     this.queue = [
       async next => {
         console.log('start', Date.now());
+        console.time('main')
         let promise = new Promise(resolve => {
           setTimeout(() => {
             // resolve('prepare');
@@ -48,18 +80,29 @@ class MainModule extends ValleyModule {
         });
         let res = await promise;
         await next();
-      },
-      async next => {
-        console.log(self.context.text, Date.now());
-        await next();
+        console.timeEnd('main')
       },
       RouterModule,
-      [indexM, listM]
+      [indexM, listM],
+      [
+        async next => {
+          let res = await getTpl(this.context.tpl);
+          console.log(res);
+          // await next();
+        },
+        async next => {
+          let res = await getData(this.context.data);
+          console.log(res);
+          // await next();
+        }
+      ],
+      HTMLModule
     ];
   }
 }
 
 let mainModule = new MainModule();
 mainModule.init().then(res => {
-  mainModule.runQueue(1);
+  // console.log(' >> ')
+  // mainModule.runQueue(4);
 })
