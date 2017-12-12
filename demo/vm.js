@@ -1,19 +1,6 @@
-let modules = {};
+'use strict';
 
 let emptyFn = () => {};
-
-const nextRegExp = /\bnext\(.*?\)/g;
-
-function runItemFn(index, fnQueue) {
-  let fn = fnQueue[index];
-  console.log(fn.toString())
-  if (!fn) {
-    return emptyFn();
-  }
-  return fn(() => {
-    return runItemFn(index + 1, fnQueue);
-  });
-}
 
 /**
  * queue
@@ -38,6 +25,8 @@ class ValleyModule {
       return self.context;
     });
     this.jobQueue = this.compose();
+    // console.log(this.jobQueue)
+    // this.jobQueue.forEach(fn => console.log(fn.toString()))
     return this.runQueue();
   }
   add(fn) {
@@ -57,7 +46,10 @@ class ValleyModule {
           };
         } else {
         // 函数
+          // return async next => {
           return item.bind(self);
+            // await next();
+          // };
         }
       } else if (item instanceof Array) {
         // 数组
@@ -94,12 +86,13 @@ class ValleyModule {
       return self.runItem(index + 1);
     });
   }
-  runQueue(start, end) {
+  runQueue(next) {
     // this.queue.forEach((fn,i) => console.log(i, fn.toString()))
-    start = start ? (start + 1) : 0;
-    return this.runItem(start);
+    return this.runItem(0);
   }
 }
 
-export default ValleyModule;
+
 // module.exports = ValleyModule;
+
+module.exports = ValleyModule;

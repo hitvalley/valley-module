@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel-node": "babel-node *.js",
-    "demo": "nodemon --exec babel-node demo/demo.js"
+    "demo": "nodemon --exec babel-node demo/demo.js",
+    "build": "rollup -i src/valley-module.js -o demo/vm.js -f cjs"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,9 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "minimist": "^1.2.0",
     "rollup": "^0.52.1",
-    "rollup-plugin-babel": "^3.0.2"
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0"
   }
 }
