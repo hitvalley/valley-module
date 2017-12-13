@@ -42,4 +42,49 @@ async () => {
 ]
 ```
 
-### 
+### 模块子类
+
+引入 ValleyModule 的子类，执行完子类的 init 方法后，执行后面的组件
+
+```
+class RenderModule extends ValleyModule {
+  ...
+}
+```
+
+### 模块的实例化
+
+引入 ValleyModule 或 ValleyModule子类 的实例化，执行完 init 方法后，执行后面的组件
+
+```
+class r = new RenderModule();
+r.init(xxx);
+```
+
+### 选择组件实现
+
+可以引入一个模块，来实现组件选择
+
+```
+class RouterModule extends ValleyModule {
+  prepare() {
+    const r1 = new Render();
+    const r2 = new Render();
+    this.add('route', async next => {
+      if (check r1) {
+        await r1.init();
+      } else {
+        await r2.init();
+      }
+      await next();
+    });
+  }
+}
+```
+
+## 方法
+
+* prepare // 准备好模块中组件的
+* add // 增加一个组件
+* init // 初始化模块，并顺序化执行组件
+* runQueue // 顺序执行组件，可以从特定位置执行
