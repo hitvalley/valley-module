@@ -25,8 +25,6 @@ class ValleyModule {
       return self.context;
     });
     this.jobQueue = this.compose();
-    // console.log(this.jobQueue)
-    // this.jobQueue.forEach(fn => console.log(fn.toString()))
     return this.runQueue();
   }
   add(fn) {
@@ -46,10 +44,7 @@ class ValleyModule {
           };
         } else {
         // 函数
-          // return async next => {
           return item.bind(self);
-            // await next();
-          // };
         }
       } else if (item instanceof Array) {
         // 数组
@@ -86,9 +81,10 @@ class ValleyModule {
       return self.runItem(index + 1);
     });
   }
-  runQueue(next) {
+  runQueue(start, end) {
     // this.queue.forEach((fn,i) => console.log(i, fn.toString()))
-    return this.runItem(0);
+    start = start ? (start + 1) : 0;
+    return this.runItem(start);
   }
 }
 

@@ -1,3 +1,6 @@
+var ValleyModule = (function () {
+'use strict';
+
 let emptyFn = () => {};
 
 /**
@@ -95,12 +98,16 @@ class ValleyModule {
       return self.runItem(index + 1);
     });
   }
-  runQueue(start, context) {
+  runQueue(start) {
     // this.queue.forEach((fn,i) => console.log(i, fn.toString()))
     let startIndex = this.findIndex(start || '__begin');
     return this.runItem(startIndex);
   }
 }
 
-export default ValleyModule;
+
 // module.exports = ValleyModule;
+
+return ValleyModule;
+
+}());

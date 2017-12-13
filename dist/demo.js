@@ -1,4 +1,4 @@
-import ValleyModule from '../src/valley-module';
+// import ValleyModule from '../src/valley-module';
 // const ValleyModule = require('./vm');
 
 function getTpl(name) {
@@ -21,23 +21,18 @@ function getData(data) {
 
 class RouterModule extends ValleyModule {
   prepare() {
-    this.name = 'router';
     let indexM = new RenderModule({ name: 'index' });
     let listM = new RenderModule({ name: 'list' });
     this.add('route', async next => {
-      if (typeof process === 'undefined') {
-        this.context.path = (location.hash || '#').substr(1) || '/index';
-      } else {
-        this.context.path = process.argv && process.argv[2] || '/index';
-      }
+      this.context.path = (location.hash || '#').substring(1) || 'index'
       let path = this.context.path.replace(/^\/|\/$/g, '');
-      console.log('path:', path)
+      console.log(path)
       switch (path) {
       case 'index':
-        await indexM.init(this.context);
+        indexM.init(this.context);
         break;
       case 'list':
-        await listM.init(this.context);
+        listM.init(this.context);
         break;
       }
       await next();
@@ -75,10 +70,25 @@ class RenderModule extends ValleyModule {
 }
 
 
+// class HTMLModule extends ValleyModule {
+  // constructor(input) {
+    // super(input);
+    // this.queue = [
+      // async next => {
+        // console.log(`render html ${this.context.path}`);
+        // await next();
+      // }
+    // ]
+  // }
+// }
+
 class MainModule extends ValleyModule {
+  constructor(input) {
+    super(input)
+    this.name = 'main'
+  }
   prepare() {
     let self = this;
-    this.name = 'main'
     this.add('start', async next => {
       console.log('start', Date.now());
       console.time('main')
@@ -101,6 +111,4 @@ let mainModule = new MainModule();
 mainModule.init().then(res => {
   // console.log(' >> ')
   // mainModule.runQueue(4);
-  console.group('twice');
-  mainModule.runQueue('router').then(res => console.groupEnd())
-});
+})

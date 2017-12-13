@@ -1,6 +1,3 @@
-import ValleyModule from '../src/valley-module';
-// const ValleyModule = require('./vm');
-
 function getTpl(name) {
   let len = Math.floor(Math.random() * 10) * 100;
   return new Promise(resolve => {
@@ -101,6 +98,7 @@ let mainModule = new MainModule();
 mainModule.init().then(res => {
   // console.log(' >> ')
   // mainModule.runQueue(4);
+  location.hash = '#list'
   console.group('twice');
   mainModule.runQueue('router').then(res => console.groupEnd())
 });
