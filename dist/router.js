@@ -98,7 +98,7 @@ let mainModule = new MainModule();
 mainModule.init().then(res => {
   // console.log(' >> ')
   // mainModule.runQueue(4);
-  location.hash = '#list'
+  location.hash = '#list';
   console.group('twice');
-  mainModule.runQueue('router').then(res => console.groupEnd())
+  mainModule.runQueue('router').then(res => console.groupEnd());
 });

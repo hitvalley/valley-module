@@ -1,4 +1,5 @@
-import ValleyModule from '../src/valley-module';
+import ValleyModule from '../src/index';
+// import ValleyModule from '../src/valley-module';
 // const ValleyModule = require('./vm');
 
 function getTpl(name) {
@@ -24,14 +25,14 @@ class RouterModule extends ValleyModule {
     this.name = 'router';
     let indexM = new RenderModule({ name: 'index' });
     let listM = new RenderModule({ name: 'list' });
-    this.add('route', async next => {
+    this.use('route', async next => {
       if (typeof process === 'undefined') {
         this.context.path = (location.hash || '#').substr(1) || '/index';
       } else {
         this.context.path = process.argv && process.argv[2] || '/index';
       }
       let path = this.context.path.replace(/^\/|\/$/g, '');
-      console.log('path:', path)
+      console.log('path:', path, Date.now())
       switch (path) {
       case 'index':
         await indexM.init(this.context);
@@ -51,14 +52,14 @@ class RenderModule extends ValleyModule {
     this.name = input.name;
   }
   prepare() {
-    this.add('render', async next => {
+    this.use('render', async next => {
       let moduleName = this.getModule(this.context.path);
       this.context.tpl = `${this.name}Tpl`;
       this.context.data = `${this.name}Data`;
       await next();
       console.log(`begin render ${this.name}`, Date.now());
     });
-    this.add('prepare', [
+    this.use('prepare', [
       async next => {
         let res = await getTpl(this.context.tpl);
         console.log(res);
@@ -79,7 +80,7 @@ class MainModule extends ValleyModule {
   prepare() {
     let self = this;
     this.name = 'main'
-    this.add('start', async next => {
+    this.use('start', async next => {
       console.log('start', Date.now());
       console.time('main')
       let promise = new Promise(resolve => {
@@ -93,14 +94,30 @@ class MainModule extends ValleyModule {
       await next();
       console.timeEnd('main')
     });
-    this.add('router', RouterModule);
   }
 }
 
 let mainModule = new MainModule();
+mainModule.use('test', async next => {
+  let self = mainModule;
+  let promise = new Promise(resolve => {
+    setTimeout(() => {
+      // resolve('prepare');
+      self.context.text = 'prepare';
+      resolve(self.context.text);
+    }, 600);
+  });
+  let res = await promise;
+  console.log('test', Date.now());
+  await next();
+});
+mainModule.use('router', RouterModule);
+
+console.log(mainModule.getNames())
+
 mainModule.init().then(res => {
   // console.log(' >> ')
   // mainModule.runQueue(4);
   console.group('twice');
-  mainModule.runQueue('router').then(res => console.groupEnd())
+  mainModule.run('router').then(res => console.groupEnd());
 });

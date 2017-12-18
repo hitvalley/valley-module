@@ -16,29 +16,45 @@ class ValleyModule {
   constructor(input) {
     input = input || {};
     this.queue = input.queue || [];
+    this.prepare && this.prepare();
   }
   init(context) {
     let self = this;
+    let name = this.name;
     this.context = context || {};
-    this.queue.unshift(async next => {
-      await next();
-      return self.context;
+    this.queue.unshift({
+      name: '__begin',
+      item: async next => {
+        await next();
+        return self.context;
+      }
     });
-    this.jobQueue = this.compose();
-    return this.runQueue();
+    this.indexObj = {};
+    this.compose();
+    let res = this.runQueue();
+    return res;
   }
-  add(fn) {
-    this.queue.push(fn);
+  findIndex(name) {
+    return this.indexObj[name];
   }
-  compose(queue, scope) {
-    let self = scope || this;
-    return (queue || this.queue).map(item => {
+  add(name, item) {
+    this.queue.push({
+      name,
+      item
+    });
+  }
+  compose() {
+    let self = this;
+    this.jobQueue = this.queue.map((item, index) => {
+      self.indexObj[item.name] = index;
+      item = item.item;
       if (typeof item === 'function') {
         if (ValleyModule.isPrototypeOf(item)) {
         // 类
           return async next => {
             let m = new item();
             let res = await m.init(self.context);
+            // console.log(m.name, res)
             self.context = Object.assign(self.context, res);
             await next();
           };
@@ -81,10 +97,10 @@ class ValleyModule {
       return self.runItem(index + 1);
     });
   }
-  runQueue(start, end) {
+  runQueue(start, context) {
     // this.queue.forEach((fn,i) => console.log(i, fn.toString()))
-    start = start ? (start + 1) : 0;
-    return this.runItem(start);
+    let startIndex = this.findIndex(start || '__begin');
+    return this.runItem(startIndex);
   }
 }
 
