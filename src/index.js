@@ -95,7 +95,7 @@ class ValleyModule {
   run(tag) {
     let startIndex = this.findIndex(tag || '__begin');
     if (startIndex < 0) {
-      return Promise.reject(`No [${tag}] item in queue`);
+      return Promise.reject(`No [${tag}] in queue`);
     }
     return this.runItem(startIndex);
   }
