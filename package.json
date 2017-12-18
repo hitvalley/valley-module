@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel-node": "babel-node *.js",
     "demo": "nodemon --exec babel-node demo/demo.js",
-    "build:node": "rollup -i src/valley-module.js -o dist/vm.js -f cjs",
-    "build:web": "rollup src/valley-module.js --output.file dist/valley-module.js --output.format iife --name ValleyModule"
+    "build:node": "rollup -i src/index.js -o dist/valley-module.js -f cjs",
+    "build:web": "rollup src/index.js --output.file dist/valley-module.js --output.format iife --name ValleyModule"
   },
   "repository": {
     "type": "git",
