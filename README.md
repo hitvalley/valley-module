@@ -11,7 +11,7 @@ npm run demo
 
 ## 组件
 
-### 最小的组件
+### 1. 最小的组件
 > 异步函数
 
 ```
@@ -24,7 +24,7 @@ let fn = async () => {
 mainModule.use('fn', fn);
 ```
 
-### 并发组件
+### 2. 并发组件
 > 数组
 
 设定数组中的组件同时执行，都执行完成之后，执行数组后面的组件
@@ -46,10 +46,10 @@ let middles = [
 mainModule.add('middles', middles);
 ```
 
-### 模块组件
+### 3. 模块组件
 > 模块或者模块的实例
 
-模块组件: 引入 ValleyModule 的子类，执行完子类的 init 方法后，执行后面的组件
+#### 3.1 模块组件: 引入 ValleyModule 的子类，执行完子类的 init 方法后，执行后面的组件
 
 ```
 class DemoModule extends ValleyModule {
@@ -59,7 +59,7 @@ class DemoModule extends ValleyModule {
 mainModule.add('demo', DemoModule);
 ```
 
-模块实例组件: 引入 ValleyModule 或 ValleyModule子类 的实例化，执行完 init 方法后，执行后面的组件
+#### 3.2 模块实例组件: 引入 ValleyModule 或 ValleyModule子类 的实例化，执行完 init 方法后，执行后面的组件
 
 ```
 class DemoModule extends ValleyModule {
