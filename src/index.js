@@ -9,7 +9,10 @@ class ValleyModule {
     this.indexObj = {};
 
     this.use('__begin', async next => {
-      await next();
+      let res = await next().catch(err => {
+        console.log(err)
+        this.context = err;
+      });
       return this.context;
     });
 
@@ -91,6 +94,9 @@ class ValleyModule {
   }
   run(tag) {
     let startIndex = this.findIndex(tag || '__begin');
+    if (startIndex < 0) {
+      return Promise.reject(`No [${tag}] item in queue`);
+    }
     return this.runItem(startIndex);
   }
 }

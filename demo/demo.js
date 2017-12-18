@@ -3,7 +3,7 @@ import ValleyModule from '../src/index';
 // const ValleyModule = require('./vm');
 
 function getTpl(name) {
-  let len = Math.floor(Math.random() * 10) * 100;
+  let len = Math.ceil(Math.random() * 10) * 100;
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(`tpl: ${name} ${len}`);
@@ -12,7 +12,7 @@ function getTpl(name) {
 }
 
 function getData(data) {
-  let len = Math.floor(Math.random() * 10) * 100;
+  let len = Math.ceil(Math.random() * 10) * 100;
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(`data ${data} ${len}`);
@@ -119,5 +119,8 @@ mainModule.init().then(res => {
   // console.log(' >> ')
   // mainModule.runQueue(4);
   console.group('twice');
-  mainModule.run('router').then(res => console.groupEnd());
+  mainModule.run('router1').then(res => console.groupEnd()).catch(err => {
+    console.error(err);
+    console.groupEnd();
+  });
 });
