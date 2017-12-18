@@ -70,7 +70,7 @@ let demoModule = new DemoModule();
 mainModule.add('demo', demoModule);
 ```
 
-### 选择组件的实现
+### 4. 选择组件的实现
 > 用函数和模块混合实现
 
 可以引入一个模块，来实现组件选择
