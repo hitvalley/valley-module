@@ -1,6 +1,6 @@
 # 组件管理 (更新中...)
 
-每一个模块包含若干组件，组件在一个队列中，使组件队列顺序执行。
+每一个模块包含若干组件，组件在模块的组件队列中，该插件保证队列顺序执行。
 
 ## run demo
 
@@ -11,19 +11,21 @@ npm run demo
 
 ## 组件
 
-### 函数组件
-
-使用异步函数
+### 最小的组件
+> 异步函数
 
 ```
-async () => {
+let fn = async () => {
   ...
   next(); // 下一个组件的执行位置
   ...
 };
+
+mainModule.use('fn', fn);
 ```
 
-### 数组组件
+### 并发组件
+> 数组
 
 设定数组中的组件同时执行，都执行完成之后，执行数组后面的组件
 
@@ -32,59 +34,88 @@ async () => {
     * 模块的实例化
 
 ```
-[
-  async () => {
+let middles = [
+  async next => {
     ...
   },
-  async () => {
+  async next => {
     ...
   }
-]
+];
+
+mainModule.add('middles', middles);
 ```
 
-### 模块子类
+### 模块组件
+> 模块或者模块的实例
 
-引入 ValleyModule 的子类，执行完子类的 init 方法后，执行后面的组件
+模块组件: 引入 ValleyModule 的子类，执行完子类的 init 方法后，执行后面的组件
 
 ```
-class RenderModule extends ValleyModule {
+class DemoModule extends ValleyModule {
   ...
 }
+
+mainModule.add('demo', DemoModule);
 ```
 
-### 模块的实例化
-
-引入 ValleyModule 或 ValleyModule子类 的实例化，执行完 init 方法后，执行后面的组件
+模块实例组件: 引入 ValleyModule 或 ValleyModule子类 的实例化，执行完 init 方法后，执行后面的组件
 
 ```
-class r = new RenderModule();
-r.init(xxx);
+class DemoModule extends ValleyModule {
+  ...
+}
+
+let demoModule = new DemoModule();
+mainModule.add('demo', demoModule);
 ```
 
-### 选择组件实现
+### 选择组件的实现
+> 用函数和模块混合实现
 
 可以引入一个模块，来实现组件选择
 
 ```
-class RouterModule extends ValleyModule {
-  prepare() {
-    const r1 = new Render();
-    const r2 = new Render();
-    this.add('route', async next => {
-      if (check r1) {
-        await r1.init();
-      } else {
-        await r2.init();
-      }
-      await next();
-    });
-  }
+class DemoModule1 extends ValleyModule {
+  ...
 }
+
+class DemoModule2 extends ValleyModule {
+  ...
+}
+
+mainModule.add('check', async next => {
+  let demo1 = new DemoModule1();
+  let demo2 = new DemoModule2();
+  if (this.context.type) {
+    await demo1.init();
+  } else {
+    await demo2.init();
+  }
+  await next();
+});
+```
+
+## 模块执行
+
+### 模块完整执行
+```javascript 
+mainModule.init(); // 包含prepare工作
+
+// 或者
+
+mainModule.run();
+```
+### 模块部分执行
+
+```jvascript
+let name = '...';
+mainModule.run(name); // 从组件名为 {name} 的组件开始，向后执行
 ```
 
 ## 方法
 
 * prepare // 准备好模块中组件的
-* add // 增加一个组件
+* use // 增加一个组件
 * init // 初始化模块，并顺序化执行组件
-* runQueue // 顺序执行组件，可以从特定位置执行
+* run // 顺序执行组件，可以从特定位置执行
