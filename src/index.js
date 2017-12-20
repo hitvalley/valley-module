@@ -8,13 +8,13 @@ class ValleyModule {
     this.jobQueue = [];
     this.indexObj = {};
 
-    this.use('__begin', async next => {
-      let res = await next().catch(err => {
-        console.log(err)
-        this.context = err;
-      });
-      return this.context;
-    });
+    // this.use('__begin', async next => {
+    //   let res = await next().catch(err => {
+    //     // console.log(err)
+    //     this.context = err;
+    //   });
+    //   return this.context;
+    // });
 
     this.prepare && this.prepare();
   }
@@ -82,22 +82,30 @@ class ValleyModule {
   getNames() {
     return this.names;
   }
-  runItem(index) {
-    let fn = this.jobQueue[index];
+  runItem(index, queue) {
+    let fn = queue[index];
     let self = this;
     if (!fn) {
       return;
     }
     return fn(() => {
-      return self.runItem(index + 1);
+      return self.runItem(index + 1, queue);
     });
   }
   run(tag) {
-    let startIndex = this.findIndex(tag || '__begin');
+    let startIndex = tag ? this.findIndex(tag) : 0;
     if (startIndex < 0) {
       return Promise.reject(`No [${tag}] in queue`);
     }
-    return this.runItem(startIndex);
+    let tmpArr = this.jobQueue.slice(startIndex);
+    // 最外层的封装，queue执行到最后将context作为返回值返回
+    tmpArr.unshift(async next => {
+      let res = await next().catch(err => {
+        this.context = err;
+      });
+      return this.context;
+    })
+    return this.runItem(startIndex, tmpArr);
   }
 }
 

@@ -4,9 +4,8 @@
   "description": "modules management",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "babel-node": "babel-node *.js",
-    "demo": "nodemon --exec babel-node demo/demo.js",
+    "demo": "npx babel-node demo/demo.js",
     "build:node": "rollup -i src/index.js -o dist/valley-module.js -f cjs",
     "build:web": "rollup src/index.js --output.file dist/valley-module.js --output.format iife --name ValleyModule"
   },
@@ -29,6 +28,7 @@
     "minimist": "^1.2.0",
     "rollup": "^0.52.1",
     "rollup-plugin-babel": "^3.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "typescript": "^2.6.2"
   }
 }

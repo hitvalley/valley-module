@@ -3,110 +3,112 @@ var ValleyModule = (function () {
 
 let emptyFn = () => {};
 
-/**
- * queue
- *    item
- *    - common function
- *    - async function
- *    - modules
- *    - SubClass of ValleyModule
- *    - array of function
- */
-
 class ValleyModule {
   constructor(input) {
     input = input || {};
-    this.queue = input.queue || [];
+    // this.queue = input.queue || [];
+    this.names = [];
+    this.jobQueue = [];
+    this.indexObj = {};
+
+    // this.use('__begin', async next => {
+    //   let res = await next().catch(err => {
+    //     // console.log(err)
+    //     this.context = err;
+    //   });
+    //   return this.context;
+    // });
+
     this.prepare && this.prepare();
   }
   init(context) {
-    let self = this;
-    let name = this.name;
-    this.context = context || {};
-    this.queue.unshift({
-      name: '__begin',
-      item: async next => {
-        await next();
-        return self.context;
-      }
-    });
-    this.indexObj = {};
-    this.compose();
-    let res = this.runQueue();
+    this.context = context || this.context || {};
+    let res = this.run();
     return res;
   }
-  findIndex(name) {
-    return this.indexObj[name];
-  }
-  add(name, item) {
-    this.queue.push({
-      name,
-      item
-    });
-  }
-  compose() {
+  use(name, component) {
     let self = this;
-    this.jobQueue = this.queue.map((item, index) => {
-      self.indexObj[item.name] = index;
-      item = item.item;
-      if (typeof item === 'function') {
-        if (ValleyModule.isPrototypeOf(item)) {
-        // 类
-          return async next => {
-            let m = new item();
-            let res = await m.init(self.context);
-            // console.log(m.name, res)
-            self.context = Object.assign(self.context, res);
-            await next();
-          };
-        } else {
-        // 函数
-          return item.bind(self);
-        }
-      } else if (item instanceof Array) {
-        // 数组
-        return async next => {
-          let list = item.map(fn => {
-            if (typeof fn === 'function') {
-              return fn.call(self);
-            } else if (fn instanceof ValleyModule) {
-              return fn.init(self.context);
-            }
-          });
-          let res = await Promise.all(list);
-          self.context = Object.assign(self.context, res);
-          await next();
-        };
-      } else if (item instanceof ValleyModule) {
-        // 类实例化
-        return async next => {
+    let item;
+
+    // this.queue.push({
+      // name,
+      // component
+    // });
+    this.names.push(name);
+
+    if (typeof component === 'function') {
+      if (ValleyModule.isPrototypeOf(component)) {
+        item = async next => {
+          let m = new component();
           let res = await m.init(self.context);
           self.context = Object.assign(self.context, res);
           await next();
         };
+      } else {
+        item = component.bind(self);
       }
-      return emptyFn;
-    });
+    } else if (component instanceof Array) {
+      item = async next => {
+        let list = component.map(fn => {
+          if (typeof fn === 'function') {
+            return fn.call(self);
+          } else if (fn instanceof ValleyModule) {
+            return fn.init(self.context);
+          }
+        });
+        let res = await Promise.all(list);
+        self.context = Object.assign(self.context, res);
+        await next();
+      };
+    } else if (component instanceof ValleyModule) {
+      item = async next => {
+        let res = await component.init(self.context);
+        self.context = Object.assign(self.context, res);
+        await next();
+      };
+    } else {
+      item = emptyFn;
+    }
+
+    this.jobQueue.push(item);
   }
-  runItem(index) {
-    let fn = this.jobQueue[index];
+  unuse(name) {
+    let index = this.findIndex(name);
+    this.names.slice(index, 1);
+    this.jobQueue.slice(index, 1);
+  }
+  findIndex(name) {
+    return this.names.findIndex(item => item === name);
+  }
+  getNames() {
+    return this.names;
+  }
+  runItem(index, queue) {
+    let fn = queue[index];
     let self = this;
     if (!fn) {
       return;
     }
     return fn(() => {
-      return self.runItem(index + 1);
+      return self.runItem(index + 1, queue);
     });
   }
-  runQueue(start) {
-    // this.queue.forEach((fn,i) => console.log(i, fn.toString()))
-    let startIndex = this.findIndex(start || '__begin');
-    return this.runItem(startIndex);
+  run(tag) {
+    let startIndex = tag ? this.findIndex(tag) : 0;
+    if (startIndex < 0) {
+      return Promise.reject(`No [${tag}] in queue`);
+    }
+    let tmpArr = this.jobQueue.slice(startIndex);
+    // 最外层的封装，queue执行到最后将context作为返回值返回
+    tmpArr.unshift(async next => {
+      let res = await next().catch(err => {
+        this.context = err;
+      });
+      return this.context;
+    });
+    return this.runItem(startIndex, tmpArr);
   }
 }
-
-
-// module.exports = ValleyModule;
 
 return ValleyModule;
 
