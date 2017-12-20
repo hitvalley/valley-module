@@ -126,3 +126,7 @@ mainModule.run(name); // 从组件名为 {name} 的组件开始，向后执行
 * use // 增加一个组件
 * init // 初始化模块，并顺序化执行组件
 * run // 顺序执行组件，可以从特定位置执行
+
+## demo
+
+https://github.com/hitvalley/valley_module_demo
