@@ -35,10 +35,10 @@ class RouterModule extends ValleyModule {
       console.log('path:', path, Date.now())
       switch (path) {
       case 'index':
-        await indexM.init(this.context);
+        await indexM.run(this.context);
         break;
       case 'list':
-        await listM.init(this.context);
+        await listM.run(this.context);
         break;
       }
       await next();
