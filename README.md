@@ -105,26 +105,25 @@ mainModule.add('check', async next => {
 
 ## 模块执行
 
-### 模块完整执行
-```javascript 
-mainModule.init(); // 包含prepare工作
-
-// 或者
-
-mainModule.run();
+```javascript
+mainModule.run(tag, context);
 ```
-### 模块部分执行
 
-```jvascript
-let name = '...';
-mainModule.run(name); // 从组件名为 {name} 的组件开始，向后执行
-```
+参数
+* tag
+  * 为起始执行的组件名称
+  * run方法会顺序执行 ${tag} 组件之后的所有组件
+* context
+  * context 为组件运行的变量对象；
+  * 组件处理的公共变量需要存储在 context 上面；
+  * context 可以在模块类构造函数中初始化，设定为this.context，即当前模块类的变量；
+  * context 输入会执行 Object.assign({}, this.context, context)，重新赋值给 this.context
 
 ## 方法
 
-* prepare // 准备好模块中组件的
-* use // 增加一个组件
-* init // 初始化模块，并顺序化执行组件
+* prepare // 帮助在构造函数中准备模块的组件
+* use // 增加一个组件，需要确定组件名称和组件内容
+* unuse // 根据组件名，删除一个组件
 * run // 顺序执行组件，可以从特定位置执行
 
 ## demo
