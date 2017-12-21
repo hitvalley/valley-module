@@ -23,11 +23,11 @@ class ValleyModule {
     this.context = {};
     this.prepare && this.prepare();
   }
-  init(context) {
-    this.context = context || this.context || {};
-    let res = this.run();
-    return res;
-  }
+  // init(context) {
+    // this.context = context || this.context || {};
+    // let res = this.run();
+    // return res;
+  // }
   use(name, component) {
     let self = this;
     let item;
