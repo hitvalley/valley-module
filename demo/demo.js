@@ -115,7 +115,7 @@ mainModule.use('router', RouterModule);
 
 console.log(mainModule.getNames())
 
-mainModule.init().then(res => {
+mainModule.run().then(res => {
   // console.log(' >> ')
   // mainModule.runQueue(4);
   console.group('twice');
