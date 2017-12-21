@@ -99,9 +99,7 @@ class ValleyModule {
     // 最外层的封装，queue执行到最后将context作为返回值返回
     let tmpArr = this.jobQueue.slice(startIndex);
     tmpArr.unshift(async next => {
-      let res = await next().catch(err => {
-        this.context = err;
-      });
+      await next();
       return this.context;
     });
 

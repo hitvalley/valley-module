@@ -96,7 +96,7 @@ class MainModule extends ValleyModule {
 
 let mainModule = new MainModule();
 mainModule.run().then(res => {
-  // console.log(' >> ')
+  // console.log(res)
   // mainModule.runQueue(4);
   location.hash = '#list';
   console.group('twice');

@@ -21,11 +21,6 @@ class ValleyModule {
     this.context = {};
     this.prepare && this.prepare();
   }
-  // init(context) {
-    // this.context = context || this.context || {};
-    // let res = this.run();
-    // return res;
-  // }
   use(name, component) {
     let self = this;
     let item;
@@ -97,9 +92,7 @@ class ValleyModule {
     // 最外层的封装，queue执行到最后将context作为返回值返回
     let tmpArr = this.jobQueue.slice(startIndex);
     tmpArr.unshift(async next => {
-      let res = await next().catch(err => {
-        this.context = err;
-      });
+      await next();
       return this.context;
     });
 
