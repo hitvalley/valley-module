@@ -126,6 +126,10 @@ mainModule.run(tag, context);
 * unuse // 根据组件名，删除一个组件
 * run // 顺序执行组件，可以从特定位置执行
 
+## 可用组件
+
+* ValleyTpl：文字模板组件：https://github.com/hitvalley/valleytpl/blob/master/README.md#%E6%94%AF%E6%8C%81valleymodule
+
 ## demo
 
 https://github.com/hitvalley/valley_module_demo
