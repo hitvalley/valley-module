@@ -12,6 +12,7 @@
 ## run demo
 
 ```
+## nodejs 版本 >8.0
 npm i
 npm run demo
 ```
