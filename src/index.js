@@ -36,7 +36,7 @@ class ValleyModule {
       if (ValleyModule.isPrototypeOf(component)) {
         item = async next => {
           let m = new component();
-          let res = await m.init(self.context);
+          let res = await m.run(self.context);
           self.context = Object.assign(self.context, res);
           await next();
         };
@@ -49,7 +49,7 @@ class ValleyModule {
           if (typeof fn === 'function') {
             return fn.call(self);
           } else if (fn instanceof ValleyModule) {
-            return fn.init(self.context);
+            return fn.run(self.context);
           }
         });
         let res = await Promise.all(list);
@@ -58,7 +58,7 @@ class ValleyModule {
       };
     } else if (component instanceof ValleyModule) {
       item = async next => {
-        let res = await component.init(self.context);
+        let res = await component.run(self.context);
         self.context = Object.assign(self.context, res);
         await next();
       };
