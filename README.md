@@ -129,8 +129,8 @@ mainModule.run(tag, context);
 ## 可用组件
 
 * ValleyTpl
-  * 功能：文字模板组件
-  * 地址：https://github.com/hitvalley/valleytpl/blob/master/README.md#%E6%94%AF%E6%8C%81valleymodule
+  * 功能：文字模板组件
+  * 地址：https://github.com/hitvalley/valleytpl/blob/master/README.md#%E6%94%AF%E6%8C%81valleymodule
 
 ## demo
 
