@@ -50,8 +50,8 @@ mainModule.use('fn', fn);
 
 数组组件包含：
 
-    * 异步函数
-    * 模块的实例化
+* 异步函数
+* 模块的实例化
 
 ```
 let middles = [
