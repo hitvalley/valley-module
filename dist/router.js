@@ -21,7 +21,7 @@ class RouterModule extends ValleyModule {
     this.name = 'router';
     let indexM = new RenderModule({ name: 'index' });
     let listM = new RenderModule({ name: 'list' });
-    this.use('route', async next => {
+    this.use('route', async function(next) {
       if (typeof process === 'undefined') {
         this.context.path = (location.hash || '#').substr(1) || '/index';
       } else {
@@ -48,7 +48,7 @@ class RenderModule extends ValleyModule {
     this.name = input.name;
   }
   prepare() {
-    this.use('render', async next => {
+    this.use('render', async function(next) {
       let moduleName = this.getModule(this.context.path);
       this.context.tpl = `${this.name}Tpl`;
       this.context.data = `${this.name}Data`;
@@ -56,11 +56,11 @@ class RenderModule extends ValleyModule {
       console.log(`begin render ${this.name}`, Date.now());
     });
     this.use('prepare', [
-      async next => {
+      async function(next) {
         let res = await getTpl(this.context.tpl);
         console.log(res);
       },
-      async next => {
+      async function(next) {
         let res = await getData(this.context.data);
         console.log(res);
       }
@@ -74,16 +74,15 @@ class RenderModule extends ValleyModule {
 
 class MainModule extends ValleyModule {
   prepare() {
-    let self = this;
     this.name = 'main'
-    this.use('start', async next => {
+    this.use('start', async function(next) {
       console.log('start', Date.now());
       console.time('main')
       let promise = new Promise(resolve => {
         setTimeout(() => {
           // resolve('prepare');
-          self.context.text = 'prepare';
-          resolve(self.context.text);
+          this.context.text = 'prepare';
+          resolve(this.context.text);
         }, 600);
       });
       let res = await promise;
