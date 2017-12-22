@@ -9,7 +9,7 @@
 
 > 每一个模块包含若干组件，组件在模块的组件队列中，该插件保证队列顺序执行。顺序执行类似于 Koa2，后面的组件会在前面组件调用 next 函数时执行。
 
-## 执行
+## 运行
 
 ### run demo
 
@@ -21,7 +21,7 @@ npm run demo
 ### run server
 
 ```
-node demo/server.js
+npm run demo:server
 
 ## 访问：http://localhost:3001
 ```
