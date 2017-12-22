@@ -2,7 +2,6 @@ let emptyFn = () => {};
 
 function runItem(index, queue) {
   let fn = queue[index];
-  let self = this;
   if (!fn) {
     return;
   }
@@ -22,7 +21,6 @@ class ValleyModule {
     this.prepare && this.prepare();
   }
   use(name, component) {
-    let self = this;
     let item;
 
     this.names.push(name);
@@ -31,33 +29,30 @@ class ValleyModule {
       if (ValleyModule.isPrototypeOf(component)) {
         item = async next => {
           let m = new component();
-          let res = await m.run(self.context);
-          self.context = Object.assign(self.context, res);
+          let res = await m.run(this.context);
+          this.context = Object.assign(this.context, res);
           await next();
         };
       } else {
-        // item = component.bind(self);
-        item = async function(next) {
-          return component.call(self, next);
-        };
+        item = component.bind(this);
       }
     } else if (component instanceof Array) {
       item = async next => {
         let list = component.map(fn => {
           if (typeof fn === 'function') {
-            return fn.call(self);
+            return fn.call(this);
           } else if (fn instanceof ValleyModule) {
-            return fn.run(self.context);
+            return fn.run(this.context);
           }
         });
         let res = await Promise.all(list);
-        self.context = Object.assign(self.context, res);
+        this.context = Object.assign(this.context, res);
         await next();
       };
     } else if (component instanceof ValleyModule) {
       item = async next => {
-        let res = await component.run(self.context);
-        self.context = Object.assign(self.context, res);
+        let res = await component.run(this.context);
+        this.context = Object.assign(this.context, res);
         await next();
       };
     } else {
