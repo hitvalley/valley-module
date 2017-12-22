@@ -122,7 +122,7 @@ class ServerModule extends ValleyModule {
       };
       this.context.json = async (data, headers) => {
         let res = this.context.res;
-        Object.keys(headers).forEach(key => {
+        Object.keys(headers || {}).forEach(key => {
           res.setHeader(key, headers[key]);
         });
         let text = JSON.stringify(data);
