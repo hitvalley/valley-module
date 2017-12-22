@@ -9,6 +9,26 @@ class ServerModule extends ValleyModule {
   constructor(input) {
     super(input);
   }
+  prepare() {
+    this.use('prepare', async next => {
+      this.context.text = async (text, headers) => {
+        let res = this.context.res;
+        Object.keys(headers || {}).forEach(key => {
+          res.setHeader(key, headers[key]);
+        });
+        res.end(`${text}\n`);
+      };
+      this.context.json = async (data, headers) => {
+        let res = this.context.res;
+        Object.keys(headers || {}).forEach(key => {
+          res.setHeader(key, headers[key]);
+        });
+        let text = JSON.stringify(data);
+        res.end(`${text}\n`);
+      };
+      await next();
+    });
+  }
   listen(options) {
     options = options || {};
     let type = options.type || 'http';
