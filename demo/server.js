@@ -12,4 +12,4 @@ server.use('test', async function(next) {
 
 server.listen({
   port: 3001
-});
+}).then(res => console.log('http://localhost:3001'));

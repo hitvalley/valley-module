@@ -6,6 +6,7 @@
   "scripts": {
     "babel-node": "babel-node *.js",
     "demo": "npx babel-node demo/demo.js",
+    "demo:server": "node demo/server.js",
     "dev": "nodemon --exec babel-node demo/demo.js",
     "build:node": "rollup -i src/output/node.js -o demo/valley-module-server.js -f cjs",
     "build:web": "rollup src/index.js --output.file dist/valley-module.js --output.format iife --name ValleyModule"
