@@ -1,5 +1,8 @@
-var ValleyModule = (function () {
 'use strict';
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var http = _interopDefault(require('http'));
 
 let emptyFn = () => {};
 
@@ -16,11 +19,11 @@ function runItem(index, queue) {
 class ValleyModule {
   constructor(input) {
     input = input || {};
-    this.names = [];
-    this.jobQueue = [];
-    this.indexObj = {};
 
-    this.context = {};
+    this.jobQueue = input.jobQueue || [];
+    this.names = this.jobQueue.map(item => item.name) || [];
+    this.context = input.context || {};
+
     this.prepare && this.prepare();
   }
   use(name, component) {
@@ -84,7 +87,7 @@ class ValleyModule {
 
     let startIndex = tag ? this.findIndex(tag) : 0;
     if (startIndex < 0) {
-      return Promise.reject(`No [${tag}] in queue`);
+      return Promise.reject(`No [${tag}] tag in queue`);
     }
 
     if (context) {
@@ -102,6 +105,35 @@ class ValleyModule {
   }
 }
 
-return ValleyModule;
+class ServerModule extends ValleyModule {
+  constructor(input) {
+    super(input);
+  }
+  listen(options) {
+    options = options || {};
+    let type = options.type || 'http';
+    let port = options.port;
+    let host = options.host || '0.0.0.0';
+    let self = this;
+    return new Promise((resolve, reject) => {
+      switch(type) {
+      case 'http':
+      default:
+        const server = http.createServer((req, res) => {
+          self.run({
+            req,
+            res
+          });
+        });
+        server.listen({
+          port,
+          host
+        }, () => {
+          resolve(arguments);
+        });
+      }
+    });
+  }
+}
 
-}());
+module.exports = ServerModule;

@@ -14,11 +14,11 @@ function runItem(index, queue) {
 class ValleyModule {
   constructor(input) {
     input = input || {};
-    this.names = [];
-    this.jobQueue = [];
-    this.indexObj = {};
 
-    this.context = {};
+    this.jobQueue = input.jobQueue || [];
+    this.names = this.jobQueue.map(item => item.name) || [];
+    this.context = input.context || {};
+
     this.prepare && this.prepare();
   }
   use(name, component) {
@@ -36,7 +36,10 @@ class ValleyModule {
           await next();
         };
       } else {
-        item = component.bind(self);
+        // item = component.bind(self);
+        item = async function(next) {
+          return component.call(self, next);
+        };
       }
     } else if (component instanceof Array) {
       item = async next => {
@@ -82,7 +85,7 @@ class ValleyModule {
 
     let startIndex = tag ? this.findIndex(tag) : 0;
     if (startIndex < 0) {
-      return Promise.reject(`No [${tag}] in queue`);
+      return Promise.reject(`No [${tag}] tag in queue`);
     }
 
     if (context) {
@@ -101,3 +104,4 @@ class ValleyModule {
 }
 
 export default ValleyModule;
+
