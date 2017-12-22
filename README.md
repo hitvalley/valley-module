@@ -143,7 +143,10 @@ mainModule.run(tag, context);
 
 * ValleyTpl
   * 功能：文字模板组件
-  * 地址：https://github.com/hitvalley/valleytpl/blob/master/README.md#%E6%94%AF%E6%8C%81valleymodule
+  * https://github.com/hitvalley/valleytpl/blob/master/README.md#%E6%94%AF%E6%8C%81valleymodule
+* ValleyServer
+  * 功能：node server 工具
+  * https://github.com/hitvalley/valley-server
 
 ## demo
 
