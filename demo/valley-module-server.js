@@ -3,6 +3,8 @@
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var http = _interopDefault(require('http'));
+var https = _interopDefault(require('https'));
+var fs = _interopDefault(require('fs'));
 
 let emptyFn = () => {};
 
@@ -27,7 +29,6 @@ class ValleyModule {
     this.prepare && this.prepare();
   }
   use(name, component) {
-    let self = this;
     let item;
 
     this.names.push(name);
@@ -36,30 +37,30 @@ class ValleyModule {
       if (ValleyModule.isPrototypeOf(component)) {
         item = async next => {
           let m = new component();
-          let res = await m.run(self.context);
-          self.context = Object.assign(self.context, res);
+          let res = await m.run(this.context);
+          this.context = Object.assign(this.context, res);
           await next();
         };
       } else {
-        item = component.bind(self);
+        item = component.bind(this);
       }
     } else if (component instanceof Array) {
       item = async next => {
         let list = component.map(fn => {
           if (typeof fn === 'function') {
-            return fn.call(self);
+            return fn.call(this);
           } else if (fn instanceof ValleyModule) {
-            return fn.run(self.context);
+            return fn.run(this.context);
           }
         });
         let res = await Promise.all(list);
-        self.context = Object.assign(self.context, res);
+        this.context = Object.assign(this.context, res);
         await next();
       };
     } else if (component instanceof ValleyModule) {
       item = async next => {
-        let res = await component.run(self.context);
-        self.context = Object.assign(self.context, res);
+        let res = await component.run(this.context);
+        this.context = Object.assign(this.context, res);
         await next();
       };
     } else {
@@ -105,6 +106,7 @@ class ValleyModule {
   }
 }
 
+// import http2 from 'http2';
 class ServerModule extends ValleyModule {
   constructor(input) {
     super(input);
@@ -115,23 +117,35 @@ class ServerModule extends ValleyModule {
     let port = options.port;
     let host = options.host || '0.0.0.0';
     let self = this;
+    let server;
     return new Promise((resolve, reject) => {
       switch(type) {
-      case 'http':
-      default:
-        const server = http.createServer((req, res) => {
+      case 'https':
+        server = https.createServer({
+          key: fs.readFileSync(options.key),
+          cert: fs.readFileSync(options.cert),
+        }, (req, res) => {
           self.run({
             req,
             res
           });
         });
-        server.listen({
-          port,
-          host
-        }, () => {
-          resolve(arguments);
+        break;
+      case 'http':
+      default:
+        server = http.createServer((req, res) => {
+          self.run({
+            req,
+            res
+          });
         });
       }
+      server.listen({
+        port,
+        host
+      }, function() {
+        resolve(arguments);
+      });
     });
   }
 }
