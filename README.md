@@ -9,7 +9,7 @@
 
 > 每一个模块包含若干组件，组件在模块的组件队列中，该插件保证队列顺序执行。顺序执行类似于 Koa2，后面的组件会在前面组件调用 next 函数时执行。
 
-## 执行
+## 运行
 
 ### run demo
 
@@ -21,7 +21,7 @@ npm run demo
 ### run server
 
 ```
-node demo/server.js
+npm run demo:server
 
 ## 访问：http://localhost:3001
 ```
@@ -32,7 +32,7 @@ node demo/server.js
 > 异步函数
 
 ```
-let fn = async () => {
+async function fn(next) {
   ...
   next(); // 下一个组件的执行位置
   ...
@@ -41,21 +41,24 @@ let fn = async () => {
 mainModule.use('fn', fn);
 ```
 
+**由于使用this.context, 组件尽量不要使用箭头函数，下同**
+
 ### 2. 并发组件
 > 数组
 
 设定数组中的组件同时执行，都执行完成之后，执行数组后面的组件
 
-  数组组件包含：
-    * 异步函数
-    * 模块的实例化
+数组组件包含：
+
+* 异步函数
+* 模块的实例化
 
 ```
 let middles = [
-  async next => {
+  async function(next) {
     ...
   },
-  async next => {
+  async function(next) {
     ...
   }
 ];
@@ -101,7 +104,7 @@ class DemoModule2 extends ValleyModule {
   ...
 }
 
-mainModule.add('check', async next => {
+mainModule.add('check', async function(next) {
   let demo1 = new DemoModule1();
   let demo2 = new DemoModule2();
   if (this.context.type) {
