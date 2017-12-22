@@ -32,7 +32,7 @@ node demo/server.js
 > 异步函数
 
 ```
-let fn = async () => {
+async function fn(next) {
   ...
   next(); // 下一个组件的执行位置
   ...
@@ -40,6 +40,8 @@ let fn = async () => {
 
 mainModule.use('fn', fn);
 ```
+
+**由于使用this.context, 组件尽量不要使用箭头函数，下同**
 
 ### 2. 并发组件
 > 数组
@@ -52,10 +54,10 @@ mainModule.use('fn', fn);
 
 ```
 let middles = [
-  async next => {
+  async function(next) {
     ...
   },
-  async next => {
+  async function(next) {
     ...
   }
 ];
@@ -101,7 +103,7 @@ class DemoModule2 extends ValleyModule {
   ...
 }
 
-mainModule.add('check', async next => {
+mainModule.add('check', async function(next) {
   let demo1 = new DemoModule1();
   let demo2 = new DemoModule2();
   if (this.context.type) {
