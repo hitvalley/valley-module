@@ -5,10 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "test": "jest",
-    "babel-node": "babel-node *.js",
     "demo": "npx babel-node demo/demo.js",
-    "demo:server": "node demo/server.js",
     "dev": "nodemon --exec babel-node demo/demo.js",
+    "build": "rollup src/index.js --output.file dist/valley-module.js --output.format cjs",
     "build:node": "rollup src/index.js --output.file dist/valley-module.js --output.format cjs",
     "build:web": "rollup src/index.js --output.file dist/valley-module.js --output.format iife --name ValleyModule"
   },
