@@ -22,12 +22,20 @@
 npm i
 npm run demo
 ```
-### run server
+
+### run test
 
 ```
-npm run demo:server
+npm test
+```
 
-## 访问：http://localhost:3001
+### build
+
+```
+# build for node
+npm run build:node
+# build for web
+npm run build:web
 ```
 
 ## 组件
