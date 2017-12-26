@@ -1,5 +1,5 @@
 {
-  "name": "valley_module",
+  "name": "valley-module",
   "version": "1.0.0",
   "description": "modules management",
   "main": "index.js",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hitvalley/valley_module.git"
+    "url": "git+https://github.com/hitvalley/valley-module.git"
   },
   "keywords": [],
   "author": "",
