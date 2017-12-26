@@ -2,7 +2,7 @@
   "name": "valley-module",
   "version": "1.0.1",
   "description": "modules management",
-  "main": "src/index.js",
+  "main": "src/valley-module.js",
   "scripts": {
     "test": "jest",
     "demo": "npx babel-node demo/demo.js",
