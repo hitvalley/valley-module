@@ -19,6 +19,9 @@ class ValleyModule {
     this.context = input.context || {};
 
     this.prepare && this.prepare();
+    // if (this.prepare) {
+      // this.prepare();
+    // }
   }
   use(name, component) {
     let item;
