@@ -159,6 +159,9 @@ mainModule.run(tag, context);
 * ValleyServer
   * 功能：node server 工具
   * https://github.com/hitvalley/valley-server
+* ValleyRouter
+  * 功能：路由管理
+  * https://github.com/hitvalley/valley-router
 
 ## demo
 
