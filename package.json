@@ -7,7 +7,7 @@
     "test": "jest",
     "demo": "npx babel-node demo/demo.js",
     "dev": "nodemon --exec babel-node demo/demo.js",
-    "build": "rollup src/index.js --output.file dist/valley-module.js --output.format cjs",
+    "build": "rollup src/index.js --output.file src/valley-module.js --output.format cjs",
     "build:node": "rollup src/index.js --output.file dist/valley-module.js --output.format cjs",
     "build:web": "rollup src/index.js --output.file dist/valley-module.js --output.format iife --name ValleyModule"
   },
