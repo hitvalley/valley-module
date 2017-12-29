@@ -165,4 +165,4 @@ mainModule.run(tag, context);
 
 ## demo
 
-https://github.com/hitvalley/valley_module_demo
+https://github.com/hitvalley/valley-module-demo
