@@ -155,13 +155,13 @@ mainModule.run(tag, context);
 
 * ValleyTpl
   * 功能：文字模板组件
-  * https://github.com/hitvalley/valleytpl/blob/master/README.md#%E6%94%AF%E6%8C%81valleymodule
+  * [valley-tpl](https://github.com/hitvalley/valley-tpl/blob/master/README.md#%E6%94%AF%E6%8C%81valleymodule)
 * ValleyServer
   * 功能：node server 工具
-  * https://github.com/hitvalley/valley-server
+  * [valley-server](https://github.com/hitvalley/valley-server)
 * ValleyRouter
   * 功能：路由管理
-  * https://github.com/hitvalley/valley-router
+  * [valley-router](https://github.com/hitvalley/valley-router)
 
 ## demo
 
