@@ -9,7 +9,7 @@
     "dev": "nodemon --exec babel-node demo/demo.js",
     "build": "rollup src/index.js --output.file src/valley-module.js --output.format cjs",
     "build:node": "rollup src/index.js --output.file dist/valley-module.js --output.format cjs",
-    "build:web": "rollup src/index.js --output.file dist/valley-module.js --output.format iife --name ValleyModule"
+    "build:web": "rollup src/index.js --output.file dist/valley-module-web.js --output.format iife --name ValleyModule"
   },
   "jest": {
     "transform": {
@@ -24,7 +24,7 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hitvalley/valley_module/issues"
+    "url": "https://github.com/hitvalley/valley-module/issues"
   },
   "homepage": "https://github.com/hitvalley/valley_module#readme",
   "devDependencies": {
