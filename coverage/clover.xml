@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1514877169752" clover="3.2.0">
+  <project timestamp="1514877169753" name="All files">
+    <metrics statements="57" coveredstatements="57" conditionals="28" coveredconditionals="28" methods="15" coveredmethods="15" elements="100" coveredelements="100" complexity="0" loc="57" ncloc="57" packages="1" files="1" classes="1">
+      <file name="index.js" path="/valley/code/valleyjs/valley-module/src/index.js">
+        <metrics statements="57" coveredstatements="57" conditionals="28" coveredconditionals="28" methods="15" coveredmethods="15"/>
+        <line num="1" count="6" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="6" count="44" type="stmt"/>
+        <line num="7" count="44" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="10" type="stmt"/>
+        <line num="10" count="34" type="stmt"/>
+        <line num="11" count="31" type="stmt"/>
+        <line num="17" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="19" count="16" type="stmt"/>
+        <line num="20" count="16" type="stmt"/>
+        <line num="21" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="23" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="28" count="32" type="stmt"/>
+        <line num="30" count="32" type="cond" truecount="2" falsecount="0"/>
+        <line num="31" count="27" type="cond" truecount="2" falsecount="0"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="39" count="26" type="stmt"/>
+        <line num="41" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="42" count="3" type="stmt"/>
+        <line num="43" count="3" type="stmt"/>
+        <line num="44" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="46" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="49" count="2" type="stmt"/>
+        <line num="52" count="3" type="stmt"/>
+        <line num="53" count="3" type="stmt"/>
+        <line num="54" count="3" type="stmt"/>
+        <line num="56" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="66" count="32" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="71" count="1" type="stmt"/>
+        <line num="74" count="12" type="stmt"/>
+        <line num="77" count="2" type="stmt"/>
+        <line num="80" count="14" type="cond" truecount="2" falsecount="0"/>
+        <line num="81" count="4" type="stmt"/>
+        <line num="82" count="4" type="stmt"/>
+        <line num="85" count="14" type="cond" truecount="2" falsecount="0"/>
+        <line num="86" count="14" type="cond" truecount="2" falsecount="0"/>
+        <line num="87" count="1" type="stmt"/>
+        <line num="90" count="13" type="cond" truecount="2" falsecount="0"/>
+        <line num="91" count="4" type="stmt"/>
+        <line num="95" count="13" type="stmt"/>
+        <line num="96" count="13" type="stmt"/>
+        <line num="97" count="13" type="stmt"/>
+        <line num="98" count="13" type="stmt"/>
+        <line num="101" count="13" type="stmt"/>
+      </file>
+    </metrics>
+  </project>
+</coverage>

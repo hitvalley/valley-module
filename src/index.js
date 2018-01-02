@@ -1,4 +1,6 @@
-let emptyFn = () => {};
+let emptyFn = async next => {
+  await next();
+};
 
 function runItem(index, queue) {
   let fn = queue[index];
@@ -14,14 +16,11 @@ class ValleyModule {
   constructor(input) {
     input = input || {};
 
-    this.jobQueue = input.jobQueue || [];
-    this.names = this.jobQueue.map(item => item.name) || [];
+    this.jobQueue = [];
+    this.names = [];
     this.context = input.context || {};
 
     this.prepare && this.prepare();
-    // if (this.prepare) {
-      // this.prepare();
-    // }
   }
   use(name, component) {
     let item;
@@ -46,6 +45,8 @@ class ValleyModule {
             return fn.call(this);
           } else if (fn instanceof ValleyModule) {
             return fn.run(this.context);
+          } else {
+            return emptyFn.call(this, next);
           }
         });
         let res = await Promise.all(list);
@@ -66,8 +67,8 @@ class ValleyModule {
   }
   unuse(name) {
     let index = this.findIndex(name);
-    this.names.slice(index, 1);
-    this.jobQueue.slice(index, 1);
+    this.names.splice(index, 1);
+    this.jobQueue.splice(index, 1);
   }
   findIndex(name) {
     return this.names.findIndex(item => item === name);
@@ -97,9 +98,8 @@ class ValleyModule {
       return this.context;
     });
 
-    return runItem(startIndex, tmpArr);
+    return runItem(0, tmpArr);
   }
 }
 
 export default ValleyModule;
-
