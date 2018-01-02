@@ -1,6 +1,6 @@
 {
   "name": "valley-module",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "modules management",
   "main": "src/valley-module.js",
   "scripts": {
