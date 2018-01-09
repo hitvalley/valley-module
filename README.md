@@ -131,13 +131,15 @@ mainModule.add('check', async function(next) {
 ## 模块执行
 
 ```javascript
-mainModule.run(tag, context);
+mainModule.run(context, tag);
 ```
 
 参数
 * tag
-  * 为起始执行的组件名称
-  * run方法会顺序执行 ${tag} 组件之后的所有组件
+  * tag.start 为起始执行的组件名称，为空时则从头执行
+  * tag.end 为结束执行的组件名称，为空时则执行到最后
+  * run 方法会顺序执行 ${tag.start} 到 ${tag.end} 之间的所有组件
+  * tag 为字符串时，tag.start = tag 和 tag.end = null
 * context
   * context 为组件运行的变量对象；
   * 组件处理的公共变量需要存储在 context 上面；
@@ -149,6 +151,7 @@ mainModule.run(tag, context);
 * prepare // 帮助在构造函数中准备模块的组件
 * use // 增加一个组件，需要确定组件名称和组件内容
 * unuse // 根据组件名，删除一个组件
+* update // 更新组件，按组件名称更新组件
 * run // 顺序执行组件，可以从特定位置执行
 
 ## 可用组件
