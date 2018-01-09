@@ -136,7 +136,7 @@ mainModule.run(context, tag);
 
 参数
 * tag
-  * tag.start 为起始执行的组件名称，为空时则从头执行
+  * tag.start 为起始执行的组件名称，为空时则从头执行
   * tag.end 为结束执行的组件名称，为空时则执行到最后
   * run 方法会顺序执行 ${tag.start} 到 ${tag.end} 之间的所有组件
   * tag 为字符串时，tag.start = tag 和 tag.end = null
