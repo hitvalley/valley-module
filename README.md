@@ -137,14 +137,14 @@ mainModule.run(context, tag);
 参数
 * tag
   * tag.start 为起始执行的组件名称，为空时则从头执行
-  * tag.end 为结束执行的组件名称，为空时则执行到最后
-  * run 方法会顺序执行 ${tag.start} 到 ${tag.end} 之间的所有组件
-  * tag 为字符串时，tag.start = tag 和 tag.end = null
+  * tag.end 为结束执行的组件名称，为空时则执行到最后
+  * run 方法会顺序执行 ${tag.start} 到 ${tag.end} 之间的所有组件
+  * tag 为字符串时，tag.start = tag 和 tag.end = null
 * context
   * context 为组件运行的变量对象；
   * 组件处理的公共变量需要存储在 context 上面；
-  * context 可以在模块类构造函数中初始化，设定为this.context，即当前模块类的变量；
-  * context 输入会执行 Object.assign({}, this.context, context)，重新赋值给 this.context
+  * context 可以在模块类构造函数中初始化，设定为this.context，即当前模块类的变量；
+  * context 输入会执行 Object.assign({}, this.context, context)，重新赋值给 this.context
 
 ## 方法
 
