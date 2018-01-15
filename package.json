@@ -2,14 +2,14 @@
   "name": "valley-module",
   "version": "1.0.8",
   "description": "modules management",
-  "main": "src/valley-module.js",
+  "main": "dist/valley-module-node.js",
   "scripts": {
     "test": "jest",
     "demo": "npx babel-node demo/demo.js",
     "dev": "nodemon --exec babel-node demo/demo.js",
-    "build": "rollup src/index.js --output.file src/valley-module.js --output.format cjs",
-    "build:node": "rollup src/index.js --output.file dist/valley-module.js --output.format cjs",
-    "build:web": "rollup src/index.js --output.file dist/valley-module-web.js --output.format iife --name ValleyModule"
+    "build"      : "rollup src/index.js --output.file dist/valley-module.js --output.format umd --name ValleyModule",
+    "build:node" : "rollup src/index.js --output.file dist/valley-module-node.js --output.format cjs",
+    "build:web"  : "rollup src/web.js --output.file dist/valley-module-web.js --output.format umd --name ValleyModule"
   },
   "jest": {
     "transform": {
@@ -42,6 +42,9 @@
     "regenerator-runtime": "^0.11.1",
     "rollup": "^0.52.1",
     "rollup-plugin-babel": "^3.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-node-resolve": "^3.0.2"
+  },
+  "dependencies": {
+    "rollup-plugin-commonjs": "^8.2.6"
   }
 }

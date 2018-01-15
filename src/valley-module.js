@@ -1,3 +1,4 @@
+var ValleyModule = (function (exports) {
 'use strict';
 
 const assert = require('assert');
@@ -130,4 +131,24 @@ class ValleyModule {
   }
 }
 
-module.exports = ValleyModule;
+function buildModule(confList) {
+  class ChildModule extends ValleyModule {
+    prepare() {
+      confList.forEach(item => {
+        let name = item.name;
+        let component = item.component;
+        if (name && fn) {
+          this.use(name, component);
+        }
+      });
+    }
+  }
+  return ChildModule;
+}
+
+exports['default'] = buildModule;
+exports.ValleyModule = ValleyModule;
+
+return exports;
+
+}({}));
