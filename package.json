@@ -1,15 +1,15 @@
 {
   "name": "valley-module",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "modules management",
   "main": "dist/valley-module-node.js",
   "scripts": {
     "test": "jest",
     "demo": "npx babel-node demo/demo.js",
     "dev": "nodemon --exec babel-node demo/demo.js",
-    "build"      : "rollup src/index.js --output.file dist/valley-module.js --output.format umd --name ValleyModule",
-    "build:node" : "rollup src/index.js --output.file dist/valley-module-node.js --output.format cjs",
-    "build:web"  : "rollup src/web.js --output.file dist/valley-module-web.js --output.format umd --name ValleyModule"
+    "build": "rollup src/index.js --output.file dist/valley-module.js --output.format umd --name ValleyModule",
+    "build:node": "rollup src/index.js --output.file dist/valley-module-node.js --output.format cjs",
+    "build:web": "rollup src/web.js --output.file dist/valley-module-web.js --output.format umd --name ValleyModule"
   },
   "jest": {
     "transform": {
