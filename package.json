@@ -7,9 +7,9 @@
     "test": "jest",
     "demo": "npx babel-node demo/demo.js",
     "dev": "nodemon --exec babel-node demo/demo.js",
-    "build": "rollup src/index.js --output.file dist/valley-module.js --output.format umd --name ValleyModule",
+    "build": "rollup --config rollup.config.js",
     "build:node": "rollup src/index.js --output.file dist/valley-module-node.js --output.format cjs",
-    "build:web": "rollup src/web.js --output.file dist/valley-module-web.js --output.format umd --name ValleyModule"
+    "build:web": "rollup --config rollup.web.config.js"
   },
   "jest": {
     "transform": {
@@ -32,19 +32,15 @@
   },
   "homepage": "https://github.com/hitvalley/valley_module#readme",
   "devDependencies": {
-    "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-jest": "^22.0.4",
+    "babel-jest": "^22.1.0",
+    "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
-    "jest": "^22.0.4",
+    "jest": "^22.1.1",
     "minimist": "^1.2.0",
     "regenerator-runtime": "^0.11.1",
     "rollup": "^0.52.1",
-    "rollup-plugin-babel": "^3.0.2",
-    "rollup-plugin-node-resolve": "^3.0.2"
-  },
-  "dependencies": {
-    "rollup-plugin-commonjs": "^8.2.6"
+    "rollup-plugin-babel": "^3.0.2"
   }
 }

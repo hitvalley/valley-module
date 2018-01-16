@@ -1,5 +1,3 @@
-const assert = require('assert');
-
 let emptyFn = async next => {
   await next();
 };
@@ -65,8 +63,7 @@ class ValleyModule {
     this.prepare && this.prepare();
   }
   throwFn(err) {
-    // console.log(err instanceof Error)
-    assert(err instanceof Error, `non-error thrown: ${err}`);
+    throw new Error(`non-error thrown: ${err}`);
   }
   use(name, component) {
     let item = initComponent(component, this);

@@ -13,7 +13,7 @@ test('error', async () => {
   try {
     let res = await main.run();
   } catch(e) {
-    expect(e.message).toBe('test error');
+    expect(e.message).toBe('non-error thrown: Error: test error');
   }
 
 });

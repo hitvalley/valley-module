@@ -1,6 +1,6 @@
 import ValleyModule from './index';
 
-function buildModule(confList) {
+ValleyModule.build = (confList) => {
   class ChildModule extends ValleyModule {
     prepare() {
       confList.forEach(item => {
@@ -15,4 +15,4 @@ function buildModule(confList) {
   return ChildModule;
 }
 
-export default buildModule;
+export default ValleyModule;
