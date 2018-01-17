@@ -11,7 +11,7 @@ const babelOption = {
     ]
   ],
   plugins: [
-    "external-helpers"
+    "external-helpers",
   ]
 };
 
