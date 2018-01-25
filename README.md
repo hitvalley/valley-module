@@ -166,7 +166,7 @@ mainModule.run(context, tag);
   * 功能：路由管理
   * [valley-router](https://github.com/hitvalley/valley-router)
 * ValleyMongo
-  * 功能：Mongo操作
+  * 功能：Mongo操作
   * [valley-mongo](https://github.com/hitvalley/valley-mongo)
 
 ## demo
