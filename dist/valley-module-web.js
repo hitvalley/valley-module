@@ -115,6 +115,9 @@ var possibleConstructorReturn = function (self, call) {
 
 var _this = window;
 
+require('core-js/fn/array/find-index');
+require('core-js/fn/object/assign');
+
 var emptyFn = function () {
   var _ref = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(next) {
     return regeneratorRuntime.wrap(function _callee$(_context) {

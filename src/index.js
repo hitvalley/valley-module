@@ -1,3 +1,6 @@
+require('core-js/fn/array/find-index');
+require('core-js/fn/object/assign');
+
 let emptyFn = async next => {
   await next();
 };
