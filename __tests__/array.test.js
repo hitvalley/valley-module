@@ -20,6 +20,10 @@ function getTpl() {
   });
 }
 
+main.use('first', async next => {
+  await next(1);
+})
+
 main.use('prepare', [
   async next => {
     let data = await getData();

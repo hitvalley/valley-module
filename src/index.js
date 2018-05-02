@@ -10,7 +10,7 @@ function runItem(index, queue) {
   if (!fn) {
     return;
   }
-  return fn(() => {
+  return fn(pos => {
     return runItem(index + 1, queue);
   });
 }
